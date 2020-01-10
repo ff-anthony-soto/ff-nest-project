@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "paths": {
+      "@api/*": ["./src/api/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@config/*": ["./src/shared/config/*"],
+      "@datasource/*": ["./src/shared/datasource/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
