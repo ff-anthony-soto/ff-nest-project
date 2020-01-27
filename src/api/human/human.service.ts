@@ -7,10 +7,12 @@ import { HumanArgs } from './dto/human.args';
 import { CreateHumanInput } from './dto/create-human.input';
 import { Human as HumanEntity } from '@shared/datasource/database/model/human.entity';
 import { CatHuman as CatHumanEntity } from '@shared/datasource/database/model/cat-human.entity';
+import { FileService } from '@shared/modules/file/file.service';
 
 @Injectable()
 export class HumanService {
   constructor(
+    private readonly fileService: FileService,
     @InjectRepository(HumanEntity)
     private readonly humanRepository: Repository<HumanEntity>,
     @InjectRepository(CatHumanEntity)
@@ -25,8 +27,9 @@ export class HumanService {
     return await this.humanRepository.find();
   };
 
-  public create = async (data: CreateHumanInput): Promise<Human> => {
-    return await this.humanRepository.save({ ...data });
+  public create = async ({ firstName, lastName, base64Picture }: CreateHumanInput): Promise<Human> => {
+    const { Location: picture } = await this.fileService.uploadFile(base64Picture, 'profile.png');
+    return await this.humanRepository.save({ firstName, lastName, picture });
   };
 
   public findOneById = async (id: number): Promise<Human> => {

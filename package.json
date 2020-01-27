@@ -27,6 +27,7 @@
     "@nestjs/platform-express": "6.7.2",
     "@nestjs/typeorm": "6.2.0",
     "apollo-server-express": "2.9.9",
+    "aws-sdk": "2.601.0",
     "class-transformer": "0.2.3",
     "class-validator": "0.11.0",
     "dataloader": "2.0.0",

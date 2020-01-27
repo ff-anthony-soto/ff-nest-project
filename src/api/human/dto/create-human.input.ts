@@ -10,4 +10,7 @@ export class CreateHumanInput {
   @Field()
   @MaxLength(30)
   lastName: string;
+
+  @Field({ nullable: true })
+  base64Picture?: string;
 }

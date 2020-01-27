@@ -13,6 +13,9 @@ export class Human {
   @Field(type => String)
   lastName: string;
 
+  @Field(type => String, { nullable: true })
+  picture?: string;
+
   @Field(type => [Cat], { nullable: true })
   cats?: Cat[];
 }

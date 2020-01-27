@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import { GqlModuleOptions } from '@nestjs/graphql';
 import { InternalServerErrorException } from '@nestjs/common';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import { ConfigurationOptions } from 'aws-sdk/lib/config';
 
 import entities from '@shared/datasource/database/entities';
 
@@ -17,6 +18,10 @@ interface IEnvConfig {
   DB_USER: string;
   DB_PASSWORD: string;
   DB_NAME: string;
+  AWS_SECRET_ACCESS_KEY: string;
+  AWS_ACCESS_KEY_ID: string;
+  AWS_REGION: string;
+  AWS_S3_BUCKET_NAME: string;
 }
 
 export class ConfigService {
@@ -62,6 +67,18 @@ export class ConfigService {
     };
   }
 
+  public get aws(): ConfigurationOptions {
+    const { get } = this;
+
+    return {
+      credentials: {
+        accessKeyId: get('AWS_ACCESS_KEY_ID'),
+        secretAccessKey: get('AWS_SECRET_ACCESS_KEY'),
+      },
+      region: get('AWS_REGION'),
+    };
+  }
+
   private validateInput(envConfig: IEnvConfig): IEnvConfig {
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       NODE_ENV: Joi.string()
@@ -74,6 +91,10 @@ export class ConfigService {
       DB_USER: Joi.string().required(),
       DB_PASSWORD: Joi.string().required(),
       DB_NAME: Joi.string().required(),
+      AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+      AWS_ACCESS_KEY_ID: Joi.string().required(),
+      AWS_REGION: Joi.string().required(),
+      AWS_S3_BUCKET_NAME: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(envConfig);

@@ -1,6 +1,8 @@
+import * as AWS from 'aws-sdk';
 import { Module, Global } from '@nestjs/common';
 
 import { ConfigService } from './config.service';
+import { AwsModule } from './modules/aws/aws.module';
 @Global()
 @Module({
   providers: [
@@ -10,5 +12,10 @@ import { ConfigService } from './config.service';
     },
   ],
   exports: [ConfigService],
+  imports: [AwsModule],
 })
-export class ConfigModule {}
+export class ConfigModule {
+  constructor(private configService: ConfigService) {
+    AWS.config.update(this.configService.aws);
+  }
+}

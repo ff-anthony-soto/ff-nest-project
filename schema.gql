@@ -28,12 +28,14 @@ input CreateCatInput {
 input CreateHumanInput {
   firstName: String!
   lastName: String!
+  base64Picture: String
 }
 
 type Human {
   id: ID!
   firstName: String!
   lastName: String!
+  picture: String
   cats: [Cat!]
 }
 

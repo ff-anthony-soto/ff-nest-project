@@ -13,6 +13,9 @@ export class Human {
   @Column({ length: 500 })
   lastName: string;
 
+  @Column({ length: 500, nullable: true })
+  picture?: string;
+
   @OneToMany(type => CatHuman, catHuman => catHuman.human)
   catsHumans!: CatHuman[];
 }
